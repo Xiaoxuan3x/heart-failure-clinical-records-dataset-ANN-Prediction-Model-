@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import streamlit as st
 import keras
@@ -22,7 +23,7 @@ image=Image.open(r'D:\Users\V\Desktop\Bootcamp\RegClass\heart_failure.jpg')
 st.image(image,use_column_width=True)
 
 
-#get users' input
+#get user's input
 age = st.number_input('Age', min_value=0, max_value=150)
 time = st.number_input('Follow-up period (days)', min_value=0, max_value=300)
 creatinine_phosphokinase = st.number_input('Creatinine Phosphokinase (mcg/L)', min_value=0, max_value=10000)
@@ -42,9 +43,9 @@ input_array = [[age, anaemia,diabetes, creatinine_phosphokinase, ejection_fracti
 
 # print the prediction result
 if st.button("Predict"):
-    prediction = model.predict(input_array)
-    if prediction > 0.5:
-        print("Cardiovascular disease poses a greater risk of death to you.Please seek regular advice from your doctor")
+    result = model.predict(input_array)
+    updated_res = result.flatten().astype(int)
+    if updated_res > 0.5:
+        st.write("Cardiovascular disease poses a greater risk of death to you.Please seek regular advice from your doctor")
     else:
-        print("Cardiovascular disease poses a small risk of death")
-
+        st.write("Cardiovascular disease poses a small risk of death")
